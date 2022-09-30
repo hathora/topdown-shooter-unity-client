@@ -30,6 +30,9 @@ public class HathoraClient : MonoBehaviour {
         }
     }
 
+    // Public Methods
+    //
+
     public void CreateNewGame() {
 
     }

@@ -23,11 +23,16 @@ public class Menu : MonoBehaviour {
         hathoraClient = HathoraClient.GetInstance();
     }
 
+    private void GoToGameScene() {
+        SceneManager.LoadScene(gameScene);
+    }
+
     // Public Methods
     //
 
     public void CreateNewGame() {
         Debug.Log("CREATE");
+        GoToGameScene();
     }
 
     public void JoinGame() {
@@ -35,6 +40,7 @@ public class Menu : MonoBehaviour {
 
         if (roomId != "") {
             Debug.Log("JOIN: " + roomIdField.text);
+            GoToGameScene();
         }
     }
 }
