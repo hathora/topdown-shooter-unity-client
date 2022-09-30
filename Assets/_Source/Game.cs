@@ -15,6 +15,15 @@ public class Game : MonoBehaviour {
     [SerializeField]
     Tilemap tilemap;
 
+
+    [Header("Lobby ID")]
+
+    [SerializeField]
+    TMPro.TMP_Text lobbyTextField;
+
+    [SerializeField]
+    string lobbyTextPrefix = "";
+
     //
     // \Config
 
@@ -25,6 +34,11 @@ public class Game : MonoBehaviour {
 
     private async void Awake() {
         hathoraClient = Hathora.Client.GetInstance();
+        string roomId = hathoraClient.GetRoomId();
+
+        if (lobbyTextField) {
+            lobbyTextField.text = lobbyTextPrefix + roomId;
+        }
 
         // Hathora Client will periodically call RenderContent
         // as long as the web socket connection is open

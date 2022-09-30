@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3c540d107860047b59ea0ee1261c3a3e
+guid: 098269f4e9ee04c438c2d883b95e2114
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - KenVector Future Thin
+  - Motion Control
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

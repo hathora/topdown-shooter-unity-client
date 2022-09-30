@@ -78,6 +78,10 @@ namespace Hathora {
             this.roomId = roomId;
         }
 
+        public string GetRoomId() {
+            return roomId;
+        }
+
         public async Task Connect(Action<string> contentRenderer) {
             await ws.ConnectAsync(new Uri($"wss://coordinator.hathora.dev/connect/{appId}"), CancellationToken.None);
             var bytesToSend = Encoding.UTF8.GetBytes($"{{\"token\": \"{token}\", \"stateId\": \"{roomId}\"}}");
