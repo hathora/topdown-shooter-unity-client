@@ -17,10 +17,10 @@ public class Menu : MonoBehaviour {
     //
     // \Config
 
-    HathoraClient hathoraClient;
+    Hathora.Client hathoraClient;
 
     void Awake() {
-        hathoraClient = HathoraClient.GetInstance();
+        hathoraClient = Hathora.Client.GetInstance();
     }
 
     private void GoToGameScene() {
@@ -30,8 +30,9 @@ public class Menu : MonoBehaviour {
     // Public Methods
     //
 
-    public void CreateNewGame() {
+    public async void CreateNewGame() {
         Debug.Log("CREATE");
+        await hathoraClient.CreateNewGame();
         GoToGameScene();
     }
 
@@ -40,6 +41,7 @@ public class Menu : MonoBehaviour {
 
         if (roomId != "") {
             Debug.Log("JOIN: " + roomIdField.text);
+            hathoraClient.JoinGame(roomId);
             GoToGameScene();
         }
     }
