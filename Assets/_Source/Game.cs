@@ -1,6 +1,23 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Game : MonoBehaviour {
+
+    // Config
+    //
+
+    [SerializeField]
+    GameObject playerPrefab;
+
+    [SerializeField]
+    GameObject robotPrefab;
+
+    [SerializeField]
+    Tilemap tilemap;
+
+    //
+    // \Config
+
 
     Hathora.Client hathoraClient;
 

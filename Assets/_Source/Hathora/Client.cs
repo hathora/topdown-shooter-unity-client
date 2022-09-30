@@ -56,6 +56,10 @@ namespace Hathora {
         // Public Methods
         //
 
+        public static Client GetInstance() {
+            return self;
+        }
+
         public async Task CreateNewGame() {
             var createRequest = new HttpRequestMessage(HttpMethod.Post, $"https://coordinator.hathora.dev/{appId}/create");
 
@@ -88,8 +92,8 @@ namespace Hathora {
             }
         }
 
-        public static Client GetInstance() {
-            return self;
+        public async void Send(string message) {
+            await ws.SendAsync(Encoding.UTF8.GetBytes(message), WebSocketMessageType.Binary, true, CancellationToken.None);
         }
     }
 
