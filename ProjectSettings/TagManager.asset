@@ -38,8 +38,17 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Map
+  - name: Map - Floor
+    uniqueID: 1831561337
+    locked: 0
+  - name: Map - Obstacles
     uniqueID: 2606123509
+    locked: 0
+  - name: Characters
+    uniqueID: 1563849823
+    locked: 0
+  - name: Ammo
+    uniqueID: 3794339747
     locked: 0
   - name: Default
     uniqueID: 0

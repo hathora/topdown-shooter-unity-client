@@ -15,6 +15,9 @@ public class Game : MonoBehaviour {
     [SerializeField]
     Tilemap tilemap;
 
+    [SerializeField]
+    MapRenderer mapRenderer;
+
 
     [Header("Lobby ID")]
 
