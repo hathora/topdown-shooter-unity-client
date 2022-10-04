@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
-using Rect = Hathora.DataTypes.Rect;
+
+using DataTypes.Game;
 
 [Serializable]
 public class MapData {
@@ -11,7 +12,7 @@ public class MapData {
     public int bottom;
     public int right;
 
-    public Rect[] walls;
+    public ObstacleData[] walls;
 
     public static MapData Parse(string jsonData) {
         MapData mapData = JsonUtility.FromJson<MapData>(jsonData);
@@ -23,7 +24,7 @@ public class MapData {
         mapData.right /= SIZE_FACTOR;
 
         for(int i = 0; i < mapData.walls.Length; i++) {
-            Rect wall = mapData.walls[i];
+            ObstacleData wall = mapData.walls[i];
             wall.x /= SIZE_FACTOR;
             wall.y /= SIZE_FACTOR;
             wall.width /= SIZE_FACTOR;

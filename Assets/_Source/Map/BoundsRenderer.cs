@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-using Hathora.DataTypes;
+using DataTypes;
 
 public class BoundsRenderer : MonoBehaviour {
 
@@ -65,7 +65,7 @@ public class BoundsRenderer : MonoBehaviour {
         int index = 4;
 
         for (int x = left + 1; x < right; x++) {
-            
+
             Vector3Int tPosition = new(x, top, 0);
             Vector3Int bPosition = new(x, bottom, 0);
 

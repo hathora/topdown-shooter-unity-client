@@ -1,5 +1,5 @@
 using UnityEngine;
-using Hathora.DataTypes;
+using DataTypes;
 
 public class MapRenderer : MonoBehaviour {
 

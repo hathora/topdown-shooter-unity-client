@@ -14,6 +14,11 @@ public class Menu : MonoBehaviour {
     [SerializeField]
     TMP_InputField roomIdField;
 
+    [Header("Debug")]
+
+    [SerializeField]
+    string defaultRoomId = "3bm0m63cfic5m";
+
     //
     // \Config
 
@@ -21,6 +26,9 @@ public class Menu : MonoBehaviour {
 
     void Awake() {
         hathoraClient = Hathora.Client.GetInstance();
+
+        // TODO: Remove Debug
+        roomIdField.text = defaultRoomId;
     }
 
     private void GoToGameScene() {

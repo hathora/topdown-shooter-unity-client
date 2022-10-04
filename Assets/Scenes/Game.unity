@@ -514,11 +514,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 7386280628509864073, guid: 6c138a4eab84543d7896e4f84cbef484, type: 3}
   robotPrefab: {fileID: 2084253796920195207, guid: eae0f35e1bdae4e2ba6a2d93884f6d95, type: 3}
+  parentTransform: {fileID: 297595096}
   tilemap: {fileID: 318080417}
   mapRenderer: {fileID: 297595097}
   mapDataFile: {fileID: 4900000, guid: f607b0e1f4c834044a16001cae7a4cae, type: 3}
   lobbyTextField: {fileID: 1750304697}
   lobbyTextPrefix: 'Lobby: '
+  cameraFollow: {fileID: 1843400841}
 --- !u!1 &811062406
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,6 +622,67 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1001 &1387209603
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8383288594528947090, guid: 61f3de856450d455a824cdc4a13adc75, type: 3}
+      propertyPath: defaultRoomId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383288594528947093, guid: 61f3de856450d455a824cdc4a13adc75, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383288594528947093, guid: 61f3de856450d455a824cdc4a13adc75, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 286.29956
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383288594528947093, guid: 61f3de856450d455a824cdc4a13adc75, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 231.24153
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383288594528947093, guid: 61f3de856450d455a824cdc4a13adc75, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.539545
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383288594528947093, guid: 61f3de856450d455a824cdc4a13adc75, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383288594528947093, guid: 61f3de856450d455a824cdc4a13adc75, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383288594528947093, guid: 61f3de856450d455a824cdc4a13adc75, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383288594528947093, guid: 61f3de856450d455a824cdc4a13adc75, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383288594528947093, guid: 61f3de856450d455a824cdc4a13adc75, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383288594528947093, guid: 61f3de856450d455a824cdc4a13adc75, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383288594528947093, guid: 61f3de856450d455a824cdc4a13adc75, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383288594528947095, guid: 61f3de856450d455a824cdc4a13adc75, type: 3}
+      propertyPath: m_Name
+      value: HathoraClient
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 61f3de856450d455a824cdc4a13adc75, type: 3}
 --- !u!1 &1621858109
 GameObject:
   m_ObjectHideFlags: 0
@@ -807,8 +870,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 1621858110}
-  tiles:
-  - {fileID: 11400000, guid: a9629e7e41b0e49c8b9e5bc2504cdfad, type: 2}
   leftWall: {fileID: 11400000, guid: 0f8fc4cb92d494a36a9665e9963b45ee, type: 2}
   rightWall: {fileID: 11400000, guid: d952413cf8c834b0ba26d250da5aa830, type: 2}
   topWall: {fileID: 11400000, guid: f29b2f3d1c9804e3fb64efba48b239f4, type: 2}
@@ -963,6 +1024,7 @@ GameObject:
   - component: {fileID: 1843400840}
   - component: {fileID: 1843400839}
   - component: {fileID: 1843400838}
+  - component: {fileID: 1843400841}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1036,3 +1098,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1843400841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843400837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4852fbe5c81504277b02db9dc6174328, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

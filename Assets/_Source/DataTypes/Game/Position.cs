@@ -1,4 +1,8 @@
-namespace Hathora.DataTypes {
+using System;
+
+namespace DataTypes.Game {
+
+    [Serializable]
     public class Position {
         public float x;
         public float y;

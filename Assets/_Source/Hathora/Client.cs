@@ -8,6 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Text;
 
+using DataTypes.Network;
+
 namespace Hathora {
 
     public class Client: MonoBehaviour {
@@ -18,13 +20,19 @@ namespace Hathora {
         [SerializeField]
         string appId = "";
 
+        [Header("Debug")]
+
+        [SerializeField]
+        string defaultRoomId = "3bm0m63cfic5m";
+
         //
         // \Config
 
         private static Client self;
 
-        private string roomId;
-        private string token;
+        private string roomId = "";
+        private string token = "";
+        private string userId = "";
 
         HttpClient httpClient;
         ClientWebSocket ws;
@@ -40,8 +48,7 @@ namespace Hathora {
                 httpClient = new HttpClient();
                 ws = new ClientWebSocket();
 
-                var loginResponse = await httpClient.PostAsync($"https://coordinator.hathora.dev/{appId}/login/anonymous", null);
-                token = JsonUtility.FromJson<LoginResponse>(await loginResponse.Content.ReadAsStringAsync()).token;
+                await GetToken();
 
                 Debug.Log("HATHORA: Got Token: " + token);
 
@@ -50,8 +57,12 @@ namespace Hathora {
             }
         }
 
-        // Public Methods
-        //
+        private async Task GetToken() {
+            if (token == "") {
+                var loginResponse = await httpClient.PostAsync($"https://coordinator.hathora.dev/{appId}/login/anonymous", null);
+                token = JsonUtility.FromJson<LoginResponse>(await loginResponse.Content.ReadAsStringAsync()).token;
+            }
+        }
 
         // Public Methods
         //
@@ -61,6 +72,8 @@ namespace Hathora {
         }
 
         public async Task CreateNewGame() {
+            await GetToken();
+
             var createRequest = new HttpRequestMessage(HttpMethod.Post, $"https://coordinator.hathora.dev/{appId}/create");
 
             createRequest.Content = new ByteArrayContent(new byte[] { });
@@ -75,6 +88,7 @@ namespace Hathora {
         }
 
         public void JoinGame(string roomId) {
+            GetToken();
             this.roomId = roomId;
         }
 
@@ -83,9 +97,27 @@ namespace Hathora {
         }
 
         public async Task Connect(Action<string> contentRenderer) {
+            // Ensure that there is a room before attempting to connect to it
+            if (roomId == "") {
+                Debug.LogWarning("Attempted to connect without lobby. Creating...");
+
+                if (defaultRoomId != "") {
+                    JoinGame(defaultRoomId);
+
+                } else {
+                    await CreateNewGame();
+                }
+            }
+
             await ws.ConnectAsync(new Uri($"wss://coordinator.hathora.dev/connect/{appId}"), CancellationToken.None);
             var bytesToSend = Encoding.UTF8.GetBytes($"{{\"token\": \"{token}\", \"stateId\": \"{roomId}\"}}");
             await ws.SendAsync(bytesToSend, WebSocketMessageType.Binary, true, CancellationToken.None);
+
+            string json = JWT.Decode(token);
+            Token decoded = JsonUtility.FromJson<Token>(json);
+            userId = decoded.id;
+
+            Debug.Log("USER ID: " + userId);
 
             while (ws.State == WebSocketState.Open) {
                 ArraySegment<byte> bytesReceived = new ArraySegment<byte>(new byte[1024]);
@@ -96,8 +128,12 @@ namespace Hathora {
             }
         }
 
-        public async void Send(string message) {
-            await ws.SendAsync(Encoding.UTF8.GetBytes(message), WebSocketMessageType.Binary, true, CancellationToken.None);
+        public async void Send(ClientMessage message) {
+            await ws.SendAsync(Encoding.UTF8.GetBytes(message.ToJson()), WebSocketMessageType.Binary, true, CancellationToken.None);
+        }
+
+        public string GetUserId() {
+            return userId;
         }
     }
 

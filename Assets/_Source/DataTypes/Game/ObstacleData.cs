@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace Hathora.DataTypes {
+namespace DataTypes.Game {
 
     [Serializable]
-    public class Rect {
+    public class ObstacleData {
         public int x;
         public int y;
         public int width;

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-using Rect = Hathora.DataTypes.Rect;
+using DataTypes.Game;
 
 public class ObstaclesRenderer : MonoBehaviour {
 
@@ -23,7 +23,7 @@ public class ObstaclesRenderer : MonoBehaviour {
 
     private void RenderObstacle(int x, int y, int width, int height) {
 
-        Debug.Log(string.Format("WALL: ({0}, {1}): W:{2}, H:{3}", x, y, width, height));
+        //Debug.Log(string.Format("WALL: ({0}, {1}): W:{2}, H:{3}", x, y, width, height));
 
         for (int i = x; i <= (x + width); i++) {
             for (int j = y; j <= (y + height); j++) {
@@ -33,12 +33,12 @@ public class ObstaclesRenderer : MonoBehaviour {
         }
     }
 
-    public void Render(Rect[] obstacles) {
+    public void Render(ObstacleData[] obstacles) {
 
-        //Rect ob = obstacles[0];
+        //ObstacleData ob = obstacles[0];
         //RenderObstacle(ob.x, ob.y, ob.width, ob.height);
 
-        foreach(Rect obstacle in obstacles) {
+        foreach(ObstacleData obstacle in obstacles) {
             int x = obstacle.x;
             int y = obstacle.y;
             int width = obstacle.width;
