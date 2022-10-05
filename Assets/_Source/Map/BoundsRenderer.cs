@@ -43,7 +43,10 @@ public class BoundsRenderer : MonoBehaviour {
         int width = Mathf.Abs(right - left);
         int height = Mathf.Abs(top - bottom);
 
-        Vector3Int[] positions = new Vector3Int[2 * width + 2 * height + 4];
+        // Account for double-counting
+        int numBoundsTiles = 2 * width + 2 * height + 4;
+
+        Vector3Int[] positions = new Vector3Int[numBoundsTiles];
         Tile[] floorTiles = new Tile[positions.Length];
 
         // Top Left
@@ -64,32 +67,28 @@ public class BoundsRenderer : MonoBehaviour {
 
         int index = 4;
 
-        for (int x = left + 1; x < right; x++) {
+        // Top and Bottom Edges
+        for (int x = (left + 1); x < right; x++) {
 
-            Vector3Int tPosition = new(x, top, 0);
-            Vector3Int bPosition = new(x, bottom, 0);
-
-            positions[index] = tPosition;
+            positions[index] = new(x, top, 0);
             floorTiles[index] = topWall;
+            index++;
 
-            positions[index+1] = bPosition;
-            floorTiles[index+1] = bottomWall;
-
-            index += 2;
+            positions[index] = new(x, bottom, 0);
+            floorTiles[index] = bottomWall;
+            index++;
         }
 
-        for (int y = bottom + 1; y < top; y++) {
+        // Left and Right Edges
+        for (int y = (bottom + 1); y < top; y++) {
 
-            Vector3Int lPosition = new(left, y, 0);
-            Vector3Int rPosition = new(right, y, 0);
-
-            positions[index] = lPosition;
+            positions[index] = new(left, y, 0);
             floorTiles[index] = leftWall;
+            index++;
 
-            positions[index + 1] = rPosition;
-            floorTiles[index + 1] = rightWall;
-
-            index += 2;
+            positions[index] = new(right, y, 0);
+            floorTiles[index] = rightWall;
+            index++;
         }
 
         tilemap.SetTiles(positions, floorTiles);

@@ -19,24 +19,20 @@ public class MapRenderer : MonoBehaviour {
     // \Config
 
     public void Render(MapData mapData) {
-        int top = mapData.top;
         int bottom = mapData.bottom;
-        int left = mapData.left;
-        int right = mapData.right;
+        int left   = mapData.left;
 
-        // Make sure top > bottom and right > left
-        //
-        if (bottom > top) {
-            top = mapData.bottom;
-            bottom = mapData.top;
-        }
-        if (left > right) {
-            right = mapData.left;
-            left = mapData.right;
-        }
+        int topBound = mapData.top;
+        int rightBound = mapData.right;
 
+        int top   = topBound - 1;
+        int right = rightBound - 1;
+
+        // Drawn inclusive
         floor.Render(top, left, bottom, right);
-        bounds.Render(top, left, bottom, right);
+
+        // Bounds go around the floor, so expand each edge by 1
+        bounds.Render((top + 1), (left - 1), (bottom - 1), (right + 1));
 
         obstacles.Render(mapData.walls);
     }
