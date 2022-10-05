@@ -63,13 +63,6 @@ public class Game : MonoBehaviour {
         hathoraClient = Hathora.Client.GetInstance();
         playersMap = new Dictionary<string, Player>();
 
-        // Render Map
-        //
-        MapData mapData = MapData.Parse(mapDataFile.ToString());
-
-        mapRenderer.Render(mapData);
-
-
         // Hathora Client will periodically call RenderContent
         // as long as the web socket connection is open
         //
@@ -86,11 +79,22 @@ public class Game : MonoBehaviour {
         }
     }
 
+    // Render Map
+    //
+    private void DrawMap(TextAsset _mapDataFile) {
+        MapData mapData = MapData.Parse(_mapDataFile.ToString());
+        mapRenderer.Render(mapData);
+    }
+
     private void RenderContent(string contentData) {
         if (!hasLoaded) {
             hasLoaded = true;
             currentPlayerId = hathoraClient.GetUserId();
             DrawLobbyId();
+
+            // Can source mapDataFile from server too
+            DrawMap(mapDataFile);
+
             Debug.Log("Connected.");
         }
 
