@@ -514,6 +514,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 7386280628509864073, guid: 6c138a4eab84543d7896e4f84cbef484, type: 3}
   robotPrefab: {fileID: 2084253796920195207, guid: eae0f35e1bdae4e2ba6a2d93884f6d95, type: 3}
+  bulletPrefab: {fileID: 732537449950067527, guid: c972b29dc2fec4b2f90fd203e1bb45a2, type: 3}
   parentTransform: {fileID: 297595096}
   tilemap: {fileID: 318080417}
   mapRenderer: {fileID: 297595097}

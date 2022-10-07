@@ -17,13 +17,16 @@ public class Player : MonoBehaviour {
     }
 
     public void Render(PlayerData data) {
-        Vector3 pos = new Vector3(data.position.x / 64, data.position.y / 64);
-        transform.SetPositionAndRotation(pos, Quaternion.identity);
+        Vector3 pos = new Vector3(data.position.x, data.position.y);
+        // float rotation = data.aimAngle * Mathf.Rad2Deg;
 
-        float aimAngle = data.aimAngle;
-        Debug.Log(id + ": AIM -> " + aimAngle);
+        transform.position = pos;
+        // transform.SetPositionAndRotation(pos, new Quaternion(0, 0, rotation, 0));
 
-        Quaternion rotation = transform.rotation;
+        // float aimAngle = data.aimAngle;
+        // Debug.Log(id + ": AIM -> " + aimAngle);
+
+        // Quaternion rotation = transform.rotation;
         // Debug.Log("P ROT: " + rotation.z);
         // Debug.Log("T ROT: " + aimAngle);
         // Debug.Log("ROT BY: " + (aimAngle - rotation.z));

@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour {
             float aimAngle = Mathf.Deg2Rad * Vector3.Angle(targetDir, transform.right);
 
             if (Mathf.Abs(aimAngle - prevAngle) > aimTolerance) {
-                Debug.Log("ANGLE: " + aimAngle);
+                // Debug.Log("ANGLE: " + aimAngle);
                 hathoraClient.Send(new SetAngleMessage(aimAngle));
                 prevAngle = aimAngle;
             }

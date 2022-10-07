@@ -7,8 +7,8 @@ namespace DataTypes.Game {
 
     public enum Direction {
         None,
-        Down,
         Up,
+        Down,
         Left,
         Right,
     }

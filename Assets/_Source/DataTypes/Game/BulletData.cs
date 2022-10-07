@@ -4,7 +4,7 @@ namespace DataTypes.Game {
 
     [Serializable]
     public class BulletData {
-        public float id;
+        public string id;
         public Position position;
     }
 }
