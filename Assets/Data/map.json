@@ -1,4 +1,8 @@
 {
+  "tileDimensions": {
+    "width": 17,
+    "height": 33
+  },
   "top": -400,
   "left": -450,
   "bottom": 1450,

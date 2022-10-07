@@ -32,7 +32,7 @@ public class MapRenderer : MonoBehaviour {
         floor.Render(top, left, bottom, right);
 
         // Bounds go around the floor, so expand each edge by 1
-        bounds.Render((top + 1), (left - 1), (bottom - 1), (right + 1));
+        // bounds.Render((top + 1), (left - 1), (bottom - 1), (right + 1));
 
         obstacles.Render(mapData.walls);
     }

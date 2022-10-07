@@ -23,10 +23,10 @@ public class ObstaclesRenderer : MonoBehaviour {
 
     private void RenderObstacle(int x, int y, int width, int height) {
 
-        //Debug.Log(string.Format("WALL: ({0}, {1}): W:{2}, H:{3}", x, y, width, height));
+        // Debug.Log(string.Format("WALL: ({0}, {1}): W:{2}, H:{3}", x, y, width, height));
 
-        for (int i = x; i <= (x + width); i++) {
-            for (int j = y; j <= (y + height); j++) {
+        for (int i = x; i <= (x + width - 1); i++) {
+            for (int j = y; j <= (y + height - 1); j++) {
                 Vector3Int position = new(i, j, 0);
                 tilemap.SetTile(position, GetRandomTile());
             }
@@ -34,9 +34,6 @@ public class ObstaclesRenderer : MonoBehaviour {
     }
 
     public void Render(ObstacleData[] obstacles) {
-
-        //ObstacleData ob = obstacles[0];
-        //RenderObstacle(ob.x, ob.y, ob.width, ob.height);
 
         foreach(ObstacleData obstacle in obstacles) {
             int x = obstacle.x;
