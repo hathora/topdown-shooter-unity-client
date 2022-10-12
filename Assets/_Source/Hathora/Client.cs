@@ -87,7 +87,6 @@ namespace Hathora {
                         httpClient = new HttpClient();
                         ws = new ClientWebSocket();
                         wsEndpoint = Regex.Replace(endpoint, "^https?", "wss");
-                        Debug.Log($"Replace: {endpoint} -> {wsEndpoint}");
 
                         initTask = GetToken();
                         await initTask;

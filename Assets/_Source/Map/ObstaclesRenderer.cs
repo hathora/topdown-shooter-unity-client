@@ -12,14 +12,10 @@ public class ObstaclesRenderer : MonoBehaviour {
     Tilemap tilemap;
 
     [SerializeField]
-    Tile[] tiles;
+    RuleTile wallTile;
 
     //
     // \Config
-
-    private Tile GetRandomTile() {
-        return tiles[Random.Range(0, tiles.Length)];
-    }
 
     private void RenderObstacle(int x, int y, int width, int height) {
 
@@ -28,10 +24,13 @@ public class ObstaclesRenderer : MonoBehaviour {
         for (int i = x; i <= (x + width - 1); i++) {
             for (int j = y; j <= (y + height - 1); j++) {
                 Vector3Int position = new(i, j, 0);
-                tilemap.SetTile(position, GetRandomTile());
+                tilemap.SetTile(position, wallTile);
             }
         }
     }
+
+    // Public Methods
+    //
 
     public void Render(ObstacleData[] obstacles) {
 

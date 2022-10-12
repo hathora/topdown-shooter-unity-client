@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floor: {fileID: 318080418}
-  bounds: {fileID: 1621858114}
+  bounds: {fileID: 0}
   obstacles: {fileID: 1621858113}
 --- !u!1 &318080414
 GameObject:
@@ -394,6 +394,58 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
@@ -413,6 +465,24 @@ Tilemap:
       e31: 0
       e32: 0
       e33: 1
+  - m_RefCount: 0
+    m_Data:
+      e00: 1
+      e01: -0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: -1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: -0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
   m_TileColorArray:
   - m_RefCount: 0
     m_Data: {r: 1, g: 1, b: 1, a: 1}
@@ -425,12 +495,12 @@ Tilemap:
   - m_RefCount: 0
     m_Data: {r: 0.9459476, g: 0.47701082, b: 0.5787372, a: 1}
   - m_RefCount: 0
-    m_Data: {r: 0.85475, g: 0.47755, b: 0.5750557, a: 1}
+    m_Data: {r: 0.7217591, g: 0.4938606, b: 0.5380997, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: -16, y: -9, z: 0}
-  m_Size: {x: 33, y: 19, z: 1}
+  m_Origin: {x: -16, y: -21, z: 0}
+  m_Size: {x: 33, y: 31, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -691,7 +761,6 @@ GameObject:
   - component: {fileID: 1621858112}
   - component: {fileID: 1621858110}
   - component: {fileID: 1621858111}
-  - component: {fileID: 1621858114}
   - component: {fileID: 1621858113}
   m_Layer: 0
   m_Name: Main
@@ -851,30 +920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 1621858110}
-  tiles:
-  - {fileID: 11400000, guid: f2152037dbbd04d68ab3f1fd7a3c04c9, type: 2}
-  - {fileID: 11400000, guid: 54f6d1c09e5a843ccb5300a06a071b4d, type: 2}
---- !u!114 &1621858114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1621858109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 351ead0866b0c4a66af5d95ef081e9b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tilemap: {fileID: 1621858110}
-  leftWall: {fileID: 11400000, guid: 0f8fc4cb92d494a36a9665e9963b45ee, type: 2}
-  rightWall: {fileID: 11400000, guid: d952413cf8c834b0ba26d250da5aa830, type: 2}
-  topWall: {fileID: 11400000, guid: f29b2f3d1c9804e3fb64efba48b239f4, type: 2}
-  bottomWall: {fileID: 11400000, guid: 127ee907760cc4025bed7a43afa61a19, type: 2}
-  topLeftWall: {fileID: 11400000, guid: a07c852ef83af4aa7aac45f9a5aac4d4, type: 2}
-  topRightWall: {fileID: 11400000, guid: 8f8018e05220e47119d53a8201dccf12, type: 2}
-  bottomLeftWall: {fileID: 11400000, guid: ec473d857ff6348158ee0bc88a96d35b, type: 2}
-  bottomRightWall: {fileID: 11400000, guid: 3bc1af83fce314e27b9cb47c1fd94c55, type: 2}
+  wallTile: {fileID: 11400000, guid: 4020eede2f3154b519411022549c9af5, type: 2}
 --- !u!1 &1750304695
 GameObject:
   m_ObjectHideFlags: 0
