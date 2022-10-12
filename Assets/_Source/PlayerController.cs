@@ -1,19 +1,9 @@
 using UnityEngine;
 
-using Hathora;
 using DataTypes.Game;
 using DataTypes.Network.ClientMessages;
 
 public class PlayerController : MonoBehaviour {
-
-    // Config
-    //
-
-    [SerializeField]
-    float aimTolerance = 0.01f;
-
-    //
-    // \Config
 
     bool isEnabled = false;
     Hathora.Client hathoraClient;
@@ -45,7 +35,6 @@ public class PlayerController : MonoBehaviour {
             }
 
             if (direction != prevDirection) {
-                // Debug.Log("Change Direction: " + direction);
                 hathoraClient.Send(new SetDirectionMessage(direction));
                 prevDirection = direction;
             }
