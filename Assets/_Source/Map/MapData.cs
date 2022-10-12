@@ -84,14 +84,14 @@ public class MapData {
             for(int i = 0; i < mapData.walls.Length; i++) {
                 ObstacleData wall = mapData.walls[i];
 
-                wall.x = (wall.x / WALL_SIZE) - 1;
+                wall.x = (wall.x / WALL_SIZE);
                 wall.width  /= WALL_SIZE;
                 wall.height /= WALL_SIZE;
 
                 // Account for the fact that Phaser/Server Y-axis
                 // is inverted compared to Unity's
                 //
-                wall.y = (wall.y / WALL_SIZE * -1) - wall.height + 1;
+                wall.y = (wall.y / WALL_SIZE * -1) - wall.height;
 
                 mapData.walls[i] = wall;
             }

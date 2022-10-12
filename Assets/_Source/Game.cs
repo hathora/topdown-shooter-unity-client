@@ -212,8 +212,8 @@ public class Game : MonoBehaviour {
     Position ConvertPosition(Position position) {
         Position converted = new Position(0.0f, 0.0f);
 
-        converted.x = (position.x * WIDTH_MULTIPLIER)  / 67 - 0.667f;
-        converted.y = (position.y * HEIGHT_MULTIPLIER) / 67 * -1;
+        converted.x = position.x * WIDTH_MULTIPLIER / TILE_SIZE;
+        converted.y = position.y * HEIGHT_MULTIPLIER / TILE_SIZE * -1;
 
         return converted;
     }
