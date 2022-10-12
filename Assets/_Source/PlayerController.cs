@@ -57,11 +57,9 @@ public class PlayerController : MonoBehaviour {
             Vector2 playerPos = transform.position;
             Vector2 mousePos  = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            Vector2 targetDir = mousePos - playerPos;
-            float aimAngle = Mathf.Deg2Rad * Vector3.Angle(targetDir, transform.right);
+            float aimAngle = Mathf.Atan2(playerPos.y - mousePos.y, mousePos.x - playerPos.x);
 
-            if (Mathf.Abs(aimAngle - prevAngle) > aimTolerance) {
-                // Debug.Log("ANGLE: " + aimAngle);
+            if (aimAngle != prevAngle) {
                 hathoraClient.Send(new SetAngleMessage(aimAngle));
                 prevAngle = aimAngle;
             }

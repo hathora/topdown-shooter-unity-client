@@ -6,7 +6,7 @@ namespace DataTypes.Network.ClientMessages {
         public float angle;
 
         public SetAngleMessage(float angle) {
-            this.type = ClientMessageType.SetDirection;
+            this.type = ClientMessageType.SetAngle;
             this.angle = angle;
         }
     }

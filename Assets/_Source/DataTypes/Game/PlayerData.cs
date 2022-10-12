@@ -6,6 +6,6 @@ namespace DataTypes.Game {
     public class PlayerData {
         public string id;
         public Position position;
-        public int aimAngle;
+        public float aimAngle;
     }
 }
