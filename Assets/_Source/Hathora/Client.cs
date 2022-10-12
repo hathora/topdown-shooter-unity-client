@@ -7,6 +7,7 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Text;
+using System.Text.RegularExpressions;
 
 using DataTypes.Network;
 
@@ -19,6 +20,9 @@ namespace Hathora {
 
         [SerializeField]
         string appId = "";
+
+        [SerializeField]
+        string endpoint = "https://coordinator.hathora.dev";
 
         [Header("Debug")]
 
@@ -39,6 +43,7 @@ namespace Hathora {
 
         HttpClient httpClient;
         ClientWebSocket ws;
+        string wsEndpoint = "";
 
         private bool hasInitialized = false;
         private Task initTask = null;
@@ -81,6 +86,8 @@ namespace Hathora {
 
                         httpClient = new HttpClient();
                         ws = new ClientWebSocket();
+                        wsEndpoint = Regex.Replace(endpoint, "^https?", "wss");
+                        Debug.Log($"Replace: {endpoint} -> {wsEndpoint}");
 
                         initTask = GetToken();
                         await initTask;
@@ -101,7 +108,7 @@ namespace Hathora {
 
         private async Task GetToken() {
             if (token == "") {
-                var loginResponse = await httpClient.PostAsync($"https://coordinator.hathora.dev/{appId}/login/anonymous", null);
+                var loginResponse = await httpClient.PostAsync($"{endpoint}/{appId}/login/anonymous", null);
                 token = JsonUtility.FromJson<LoginResponse>(await loginResponse.Content.ReadAsStringAsync()).token;
             }
         }
@@ -116,7 +123,7 @@ namespace Hathora {
         public async Task CreateNewGame() {
             await Initialize();
 
-            var createRequest = new HttpRequestMessage(HttpMethod.Post, $"https://coordinator.hathora.dev/{appId}/create");
+            var createRequest = new HttpRequestMessage(HttpMethod.Post, $"{endpoint}/{appId}/create");
 
             createRequest.Content = new ByteArrayContent(new byte[] { });
             createRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
@@ -153,7 +160,7 @@ namespace Hathora {
                 DebugLog("Already got roomId: " + roomId);
             }
 
-            await ws.ConnectAsync(new Uri($"wss://coordinator.hathora.dev/connect/{appId}"), CancellationToken.None);
+            await ws.ConnectAsync(new Uri($"{wsEndpoint}/connect/{appId}"), CancellationToken.None);
             var bytesToSend = Encoding.UTF8.GetBytes($"{{\"token\": \"{token}\", \"stateId\": \"{roomId}\"}}");
             await ws.SendAsync(bytesToSend, WebSocketMessageType.Binary, true, CancellationToken.None);
 
@@ -179,6 +186,7 @@ namespace Hathora {
         }
 
         public async void Send(ClientMessage message) {
+            DebugLog("SEND: " + message.ToJson());
             await ws.SendAsync(Encoding.UTF8.GetBytes(message.ToJson()), WebSocketMessageType.Binary, true, CancellationToken.None);
         }
 
