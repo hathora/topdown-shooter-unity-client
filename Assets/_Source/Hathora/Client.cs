@@ -173,6 +173,11 @@ namespace Hathora {
             }
         }
 
+        public async Task Disconnect() {
+            await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "quit", CancellationToken.None);
+            DebugLog("Disconnected");
+        }
+
         public async void Send(ClientMessage message) {
             await ws.SendAsync(Encoding.UTF8.GetBytes(message.ToJson()), WebSocketMessageType.Binary, true, CancellationToken.None);
         }

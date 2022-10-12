@@ -67,6 +67,7 @@ public class Game : MonoBehaviour {
     float TILE_SIZE;
 
     bool hasLoaded = false;
+    bool hasQuit   = false;
 
     private async void Awake() {
         hathoraClient = Hathora.Client.GetInstance();
@@ -111,6 +112,13 @@ public class Game : MonoBehaviour {
             DrawMap(mapDataFile);
 
             Debug.Log("Connected.");
+        }
+
+        // Game has quit async, don't try to access any member variables
+        // because they may not exist. Handle any cleanup in OnApplicationQuit
+        //
+        if (hasQuit) {
+            return;
         }
 
         ServerMessage message = JsonUtility.FromJson<ServerMessage>(contentData);
@@ -193,6 +201,12 @@ public class Game : MonoBehaviour {
 
             currentBullets = nextBullets;
         }
+    }
+
+    private async void OnApplicationQuit() {
+        hasQuit = true;
+        await hathoraClient.Disconnect();
+        Debug.Log("Disconnected.");
     }
 
     Position ConvertPosition(Position position) {
