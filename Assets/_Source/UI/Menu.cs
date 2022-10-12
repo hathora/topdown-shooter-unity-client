@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using TMPro;
 
 public class Menu : MonoBehaviour {
@@ -17,7 +16,7 @@ public class Menu : MonoBehaviour {
     [Header("Debug")]
 
     [SerializeField]
-    string defaultRoomId = "3bm0m63cfic5m";
+    string defaultRoomId = "";
 
     //
     // \Config
@@ -26,8 +25,6 @@ public class Menu : MonoBehaviour {
 
     void Awake() {
         hathoraClient = Hathora.Client.GetInstance();
-
-        // TODO: Remove Debug
         roomIdField.text = defaultRoomId;
     }
 
@@ -39,7 +36,6 @@ public class Menu : MonoBehaviour {
     //
 
     public async void CreateNewGame() {
-        Debug.Log("CREATE");
         await hathoraClient.CreateNewGame();
         GoToGameScene();
     }
@@ -51,6 +47,9 @@ public class Menu : MonoBehaviour {
             Debug.Log("JOIN: " + roomIdField.text);
             await hathoraClient.JoinGame(roomId);
             GoToGameScene();
+
+        } else {
+            Debug.LogError("Can't join. No Room ID specified!");
         }
     }
 }
