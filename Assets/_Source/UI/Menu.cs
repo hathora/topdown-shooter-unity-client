@@ -44,12 +44,12 @@ public class Menu : MonoBehaviour {
         GoToGameScene();
     }
 
-    public void JoinGame() {
+    public async void JoinGame() {
         string roomId = roomIdField.text;
 
         if (roomId != "") {
             Debug.Log("JOIN: " + roomIdField.text);
-            hathoraClient.JoinGame(roomId);
+            await hathoraClient.JoinGame(roomId);
             GoToGameScene();
         }
     }
