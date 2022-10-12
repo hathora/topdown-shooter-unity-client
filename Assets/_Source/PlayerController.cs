@@ -11,8 +11,11 @@ public class PlayerController : MonoBehaviour {
     Direction prevDirection = Direction.None;
     float prevAngle = 0.0f;
 
+    Camera mainCamera;
+
     private void Awake() {
         hathoraClient = Hathora.Client.GetInstance();
+        mainCamera    = Camera.main;
     }
 
     void Update() {
@@ -44,7 +47,7 @@ public class PlayerController : MonoBehaviour {
             //
 
             Vector2 playerPos = transform.position;
-            Vector2 mousePos  = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos  = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
             float aimAngle = Mathf.Atan2(playerPos.y - mousePos.y, mousePos.x - playerPos.x);
 
