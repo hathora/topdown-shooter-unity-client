@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+using Cinemachine;
+
 using System.Collections.Generic;
 
 using DataTypes.Game;
@@ -50,7 +52,7 @@ public class Game : MonoBehaviour {
     [Header("Misc")]
 
     [SerializeField]
-    Follow cameraFollow;
+    CinemachineVirtualCamera cameraFollow;
 
     //
     // \Config
@@ -152,7 +154,7 @@ public class Game : MonoBehaviour {
                     Player player = go.GetComponent<Player>();
                     player.Init(playerData, isCurrentPlayer);
                     if (isCurrentPlayer) {
-                        cameraFollow.FollowTarget(go.transform);
+                        cameraFollow.Follow = go.transform;
                     }
 
                     playersMap.Add(playerData.id, player);
