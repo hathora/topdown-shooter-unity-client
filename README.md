@@ -1,4 +1,4 @@
-# Topdown Shooter - Unity
+# Hathora Topdown Shooter - Unity
 
 ## Getting Started
 
