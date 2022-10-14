@@ -4,13 +4,26 @@
 
 Multiplayer 2D shooter demo made using Hathora + Unity
 
+Assets from [Kenney](https://kenney.nl/assets/topdown-shooter)
+
 Server and Phaser client available [here](https://github.com/hathora/topdown-shooter)
+
+![lobby](https://user-images.githubusercontent.com/587136/195953691-c990baa5-5c6c-4874-91aa-9af1180a0fb6.png)
+
+![gameplay](https://user-images.githubusercontent.com/587136/195953778-b02e8f94-7aa1-4233-993b-d6c20974e409.png)
+
 
 ## Getting Started
 
 1. Open `Main` Scene in the Unity Editor
 2. Locate the `HathoraClient` prefab in the object hierarchy (the text is blue in color)
+
+![hierarchy](https://user-images.githubusercontent.com/587136/195953518-07cffc4f-3496-4d6e-ac9f-37f8815952c4.png)
+
 3. Paste your Hathora App ID in the field provided in the Inspector
+
+![inspector](https://user-images.githubusercontent.com/587136/195953529-0f7b71dc-6978-4f7b-9d47-471b5a5f7ad0.png)
+
 4. Launch to play
 
 ## Interface to Hathora Client
