@@ -11,7 +11,7 @@
 
 The core loop of talking to the Hathora Client looks like this:
 
-```
+```c#
 
 public class Game : MonoBehaviour {
 
