@@ -1,4 +1,4 @@
-# Hathora Unity Client
+# Topdown Shooter - Unity
 
 ## Getting Started
 
