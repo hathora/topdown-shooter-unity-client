@@ -1,5 +1,11 @@
 # Hathora Topdown Shooter - Unity
 
+## Overview
+
+Multiplayer 2D shooter demo made using Hathora + Unity
+
+Server and Phaser client available [here](https://github.com/hathora/topdown-shooter)
+
 ## Getting Started
 
 1. Open `Main` Scene in the Unity Editor
