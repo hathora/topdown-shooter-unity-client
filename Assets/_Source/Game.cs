@@ -76,8 +76,6 @@ public class Game : MonoBehaviour {
     Dictionary<string, Bullet> bulletsMap;
     HashSet<string> currentBullets;
 
-    float HEIGHT_MULTIPLIER;
-    float WIDTH_MULTIPLIER;
     float TILE_SIZE;
 
     bool hasLoaded = false;
@@ -113,9 +111,7 @@ public class Game : MonoBehaviour {
         MapData mapData = MapData.Parse(_mapDataFile.ToString());
         mapRenderer.Render(mapData);
 
-        HEIGHT_MULTIPLIER = MapData.HEIGHT_MULTIPLIER;
-        WIDTH_MULTIPLIER  = MapData.WIDTH_MULTIPLIER;
-        TILE_SIZE         = MapData.TILE_SIZE;
+        TILE_SIZE = MapData.TILE_SIZE;
     }
 
     private void RenderContent(string contentData) {
@@ -257,8 +253,8 @@ public class Game : MonoBehaviour {
     Position ConvertPosition(Position position) {
         Position converted = new Position(0.0f, 0.0f);
 
-        converted.x = position.x * WIDTH_MULTIPLIER / TILE_SIZE;
-        converted.y = position.y * HEIGHT_MULTIPLIER / TILE_SIZE * -1;
+        converted.x = position.x / TILE_SIZE;
+        converted.y = position.y / TILE_SIZE * -1;
 
         return converted;
     }
