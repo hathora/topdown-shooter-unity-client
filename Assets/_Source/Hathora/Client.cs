@@ -180,13 +180,16 @@ namespace Hathora {
         }
 
         public async Task Disconnect() {
-            await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "quit", CancellationToken.None);
+            await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
+            ws = new ClientWebSocket();
             DebugLog("Disconnected");
         }
 
         public async void Send(ClientMessage message) {
-            DebugLog("SEND: " + message.ToJson());
-            await ws.SendAsync(Encoding.UTF8.GetBytes(message.ToJson()), WebSocketMessageType.Binary, true, CancellationToken.None);
+            if (ws.State == WebSocketState.Open) {
+                DebugLog("SEND: " + message.ToJson());
+                await ws.SendAsync(Encoding.UTF8.GetBytes(message.ToJson()), WebSocketMessageType.Binary, true, CancellationToken.None);
+            }
         }
 
         public string GetUserId() {

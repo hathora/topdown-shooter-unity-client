@@ -1,10 +1,16 @@
 using UnityEngine;
 using DataTypes.Game;
 
+using System.Collections;
+
 public class Player : MonoBehaviour {
+
+    [SerializeField]
+    float deathAnimationDuration = 0.25f;
 
     string id;
     bool isCurrentPlayer;
+    Animator animator;
 
     // Position to move to
     Vector3 targetPosition;
@@ -15,6 +21,10 @@ public class Player : MonoBehaviour {
     float smoothTime = 0.05f;
     float speed = 100;
     Vector3 velocity;
+
+    private void Awake() {
+        animator = GetComponent<Animator>();
+    }
 
     public void Init(PlayerData data, bool isCurrentPlayer = false) {
         this.id = data.id;
@@ -36,5 +46,23 @@ public class Player : MonoBehaviour {
 
     void Update() {
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime, speed);
+    }
+
+    public void PlayDeathAnimationAndRemove() {
+        if (animator) {
+            animator.SetTrigger("Death");
+            StartCoroutine(WaitAndDestroy());
+        } else {
+            DestroySelf();
+        }
+    }
+
+    IEnumerator WaitAndDestroy() {
+        yield return new WaitForSeconds(deathAnimationDuration);
+        DestroySelf();
+    }
+
+    private void DestroySelf() {
+        Object.Destroy(gameObject);
     }
 }

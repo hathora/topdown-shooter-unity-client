@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2084253796920195205}
   - component: {fileID: 2084253796920195204}
   - component: {fileID: -7039708728303612660}
+  - component: {fileID: 3663279245619460006}
   m_Layer: 0
   m_Name: Robot
   m_TagString: Untagged
@@ -97,3 +98,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8abacfc395b44b14987ef2908998365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &3663279245619460006
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084253796920195207}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f4a0939507edb4708b73f4af037b84fa, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

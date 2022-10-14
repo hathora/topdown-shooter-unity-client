@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 using Cinemachine;
@@ -49,6 +50,15 @@ public class Game : MonoBehaviour {
     string lobbyTextPrefix = "";
 
 
+    [Header("Game Over")]
+
+    [SerializeField]
+    string menuScene = "Menu";
+
+    [SerializeField]
+    GameObject backToMenuUI;
+
+
     [Header("Misc")]
 
     [SerializeField]
@@ -61,6 +71,8 @@ public class Game : MonoBehaviour {
 
     string currentPlayerId;
     Dictionary<string, Player> playersMap;
+    HashSet<string> currentPlayers;
+
     Dictionary<string, Bullet> bulletsMap;
     HashSet<string> currentBullets;
 
@@ -74,6 +86,8 @@ public class Game : MonoBehaviour {
     private async void Awake() {
         hathoraClient = Hathora.Client.GetInstance();
         playersMap = new Dictionary<string, Player>();
+        currentPlayers = new HashSet<string>();
+
         bulletsMap = new Dictionary<string, Bullet>();
         currentBullets = new HashSet<string>();
 
@@ -131,23 +145,28 @@ public class Game : MonoBehaviour {
             // Draw Players
             //
             PlayerData[] players = state.players;
+            HashSet<string> nextPlayerList = new HashSet<string>();
             foreach(PlayerData playerData in players) {
 
                 playerData.position = ConvertPosition(playerData.position);
 
-                if (playersMap.ContainsKey(playerData.id)) {
-                    Player player = playersMap[playerData.id];
+                string id = playerData.id;
+
+                if (playersMap.ContainsKey(id)) {
+                    Player player = playersMap[id];
                     player.Render(playerData);
-                    // Debug.Log("RENDERED: " + playerData.id + "(" + playerData.position.x + ", " + playerData.position.y + ")");
+                    currentPlayers.Remove(id);
+
+                    // Debug.Log("RENDERED: " + id + "(" + playerData.position.x + ", " + playerData.position.y + ")");
 
                 } else {
                     Position position = playerData.position;
                     Vector3 spawnPosition = new(position.x, position.y, 0);
 
-                    bool isCurrentPlayer = (playerData.id == currentPlayerId);
+                    bool isCurrentPlayer = (id == currentPlayerId);
                     GameObject prefab = isCurrentPlayer ? playerPrefab : robotPrefab;
 
-                    Debug.Log(string.Format("Spawn {0}: ({1}, {2})", isCurrentPlayer ? "Player" : "Robot", spawnPosition.x, spawnPosition.y));
+                    // Debug.Log(string.Format("Spawn {0}: ({1}, {2})", isCurrentPlayer ? "Player" : "Robot", spawnPosition.x, spawnPosition.y));
 
                     // Spawn
                     GameObject go = Instantiate(prefab, spawnPosition, Quaternion.identity, parentTransform);
@@ -157,9 +176,27 @@ public class Game : MonoBehaviour {
                         cameraFollow.Follow = go.transform;
                     }
 
-                    playersMap.Add(playerData.id, player);
+                    playersMap.Add(id, player);
+                }
+
+                nextPlayerList.Add(id);
+            }
+
+            // Remove Players that don't exist in props
+            foreach(string id in currentPlayers) {
+                if (playersMap.ContainsKey(id)) {
+                    Player player = playersMap[id];
+                    playersMap.Remove(id);
+
+                    player.PlayDeathAnimationAndRemove();
+
+                    if (id == currentPlayerId) {
+                        DisplayGameOverMenu();
+                    }
                 }
             }
+            currentPlayers = nextPlayerList;
+
 
             // Draw Bullets
             //
@@ -205,6 +242,12 @@ public class Game : MonoBehaviour {
         }
     }
 
+    private void DisplayGameOverMenu() {
+        if (backToMenuUI) {
+            backToMenuUI.SetActive(true);
+        }
+    }
+
     private async void OnApplicationQuit() {
         hasQuit = true;
         await hathoraClient.Disconnect();
@@ -218,5 +261,14 @@ public class Game : MonoBehaviour {
         converted.y = position.y * HEIGHT_MULTIPLIER / TILE_SIZE * -1;
 
         return converted;
+    }
+
+
+    // Public Methods
+    //
+
+    public void GoBackToMenu() {
+        OnApplicationQuit();
+        SceneManager.LoadScene(menuScene);
     }
 }
