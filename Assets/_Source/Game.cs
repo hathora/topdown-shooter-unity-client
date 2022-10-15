@@ -263,6 +263,11 @@ public class Game : MonoBehaviour {
     // Public Methods
     //
 
+    public void CopyLobbyId() {
+        string roomId = hathoraClient.GetRoomId();
+        roomId.CopyToClipboard();
+    }
+
     public void GoBackToMenu() {
         OnApplicationQuit();
         SceneManager.LoadScene(menuScene);
