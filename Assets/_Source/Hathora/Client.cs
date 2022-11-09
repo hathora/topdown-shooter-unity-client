@@ -24,7 +24,7 @@ namespace Hathora
         string appId = "";
 
         [SerializeField]
-        string coordinatorHost = "https://coordinator.hathora.dev";
+        string coordinatorHost = "coordinator.hathora.dev";
 
         [Header("Debug")]
 

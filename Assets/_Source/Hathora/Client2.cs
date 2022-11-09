@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace Hathora
 {
@@ -37,7 +38,9 @@ namespace Hathora
 
         public async Task<string> LoginAnonymous()
         {
-            HttpResponseMessage loginResponse = await httpClient.PostAsync($"{coordinatorHost}/{appId}/login/anonymous", null);
+            Debug.Log($"https://{coordinatorHost}/{appId}/login/anonymous");
+            HttpResponseMessage loginResponse = await httpClient.PostAsync($"https://{coordinatorHost}/{appId}/login/anonymous", null);
+            Debug.Log(loginResponse.StatusCode);
             string loginBody = await loginResponse.Content.ReadAsStringAsync();
             LoginResponse login = JsonConvert.DeserializeObject<LoginResponse>(loginBody);
             return login.token;
@@ -50,9 +53,10 @@ namespace Hathora
 
         public async Task<string> Create(string token, byte[] body)
         {
-            HttpRequestMessage createRequest = new HttpRequestMessage(HttpMethod.Post, $"{coordinatorHost}/{appId}/create");
+            HttpRequestMessage createRequest = new HttpRequestMessage(HttpMethod.Post, $"https://{coordinatorHost}/{appId}/create");
             createRequest.Content = new ByteArrayContent(body);
             createRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            Debug.Log(token);
             createRequest.Headers.Add("Authorization", token);
             HttpResponseMessage createResponse = await httpClient.SendAsync(createRequest);
             string createBody = await createResponse.Content.ReadAsStringAsync();
@@ -63,6 +67,7 @@ namespace Hathora
         public async Task<ClientWebSocket> Connect(string token, string stateId)
         {
             ClientWebSocket webSocket = new ClientWebSocket();
+            Debug.Log($"wss://{coordinatorHost}/connect/{appId}");
             await webSocket.ConnectAsync(new Uri($"wss://{coordinatorHost}/connect/{appId}"), CancellationToken.None);
             var bytesToSend = Encoding.UTF8.GetBytes($"{{\"token\": \"{token}\", \"stateId\": \"{stateId}\"}}");
             await webSocket.SendAsync(bytesToSend, WebSocketMessageType.Binary, true, CancellationToken.None);
