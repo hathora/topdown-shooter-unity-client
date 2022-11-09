@@ -35,7 +35,7 @@ namespace Hathora
             public string token;
         }
 
-        public async Task<string> loginAnonymous()
+        public async Task<string> LoginAnonymous()
         {
             HttpResponseMessage loginResponse = await httpClient.PostAsync($"{coordinatorHost}/{appId}/login/anonymous", null);
             string loginBody = await loginResponse.Content.ReadAsStringAsync();
@@ -48,7 +48,7 @@ namespace Hathora
             public string stateId;
         }
 
-        public async Task<string> create(string token, byte[] body)
+        public async Task<string> Create(string token, byte[] body)
         {
             HttpRequestMessage createRequest = new HttpRequestMessage(HttpMethod.Post, $"{coordinatorHost}/{appId}/create");
             createRequest.Content = new ByteArrayContent(body);
@@ -60,13 +60,32 @@ namespace Hathora
             return create.stateId;
         }
 
-        public async Task<ClientWebSocket> connect(string token, string stateId)
+        public async Task<ClientWebSocket> Connect(string token, string stateId)
         {
             ClientWebSocket webSocket = new ClientWebSocket();
             await webSocket.ConnectAsync(new Uri($"wss://{coordinatorHost}/connect/{appId}"), CancellationToken.None);
             var bytesToSend = Encoding.UTF8.GetBytes($"{{\"token\": \"{token}\", \"stateId\": \"{stateId}\"}}");
             await webSocket.SendAsync(bytesToSend, WebSocketMessageType.Binary, true, CancellationToken.None);
             return webSocket;
+        }
+
+        // Source: https://stackoverflow.com/a/39280625/834459
+        public static string GetUserFromToken(string token)
+        {
+            var parts = token.Split('.');
+            if (parts.Length > 2)
+            {
+                var decode = parts[1];
+                var padLength = 4 - decode.Length % 4;
+                if (padLength < 4)
+                {
+                    decode += new string('=', padLength);
+                }
+                var bytes = System.Convert.FromBase64String(decode);
+                return System.Text.ASCIIEncoding.ASCII.GetString(bytes);
+            }
+
+            return "";
         }
     }
 }

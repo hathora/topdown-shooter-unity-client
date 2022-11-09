@@ -11,9 +11,11 @@ using System.Text.RegularExpressions;
 
 using DataTypes.Network;
 
-namespace Hathora {
+namespace Hathora
+{
 
-    public class Client: MonoBehaviour {
+    public class Client : MonoBehaviour
+    {
 
         // Config
         //
@@ -22,7 +24,7 @@ namespace Hathora {
         string appId = "";
 
         [SerializeField]
-        string endpoint = "https://coordinator.hathora.dev";
+        string coordinatorHost = "https://coordinator.hathora.dev";
 
         [Header("Debug")]
 
@@ -41,127 +43,95 @@ namespace Hathora {
         private string token = "";
         private string userId = "";
 
-        HttpClient httpClient;
-        ClientWebSocket ws;
-        string wsEndpoint = "";
+        private Hathora.Client2 hathoraClient;
 
-        private bool hasInitialized = false;
-        private Task initTask = null;
+        private ClientWebSocket ws;
 
-        private void DebugLog(string message) {
-            if (printDebugLogs) {
+        private void DebugLog(string message)
+        {
+            if (printDebugLogs)
+            {
                 Debug.Log(message);
             }
         }
 
-        private void DebugWarn(string message) {
-            if (printDebugLogs) {
+        private void DebugWarn(string message)
+        {
+            if (printDebugLogs)
+            {
                 Debug.LogWarning(message);
             }
         }
 
-        private async void Awake() {
+        private async void Awake()
+        {
             DebugLog("HATHORA - AWAKE");
+            hathoraClient = new Hathora.Client2(appId, coordinatorHost);
             await Initialize();
         }
 
-        private async Task Initialize() {
-            DebugLog("INIT?");
-            if (!hasInitialized) {
-                if (initTask != null) {
-                    DebugLog("initTask exists");
-                    if (!initTask.IsCompleted) {
-                        DebugLog("Waiting for initTask...");
-                        await initTask;
-                    } else {
-                        DebugLog("xxx INIT - WIERD STATE");
-                    }
-                } else {
-                    DebugLog("Initializing...");
-
-                    // Make sure there is only ever one client in the scene
-                    if (!self) {
-                        self = this;
-                        DontDestroyOnLoad(gameObject);
-
-                        httpClient = new HttpClient();
-                        ws = new ClientWebSocket();
-                        wsEndpoint = Regex.Replace(endpoint, "^https?", "wss");
-
-                        initTask = GetToken();
-                        await initTask;
-
-                        DebugLog("HATHORA: Got Token: " + token);
-                        hasInitialized = true;
-
-                    } else {
-                        DebugLog("Duplicate...destroying self...");
-                        Destroy(gameObject);
-                    }
-                    DebugLog("Done");
-                }
-            } else {
-                DebugLog("Already Initialized");
+        private async Task Initialize()
+        {
+            if (!self)
+            {
+                self = this;
+                DontDestroyOnLoad(gameObject);
+                this.token = await hathoraClient.LoginAnonymous();
+                this.userId = Hathora.Client2.GetUserFromToken(token);
             }
-        }
-
-        private async Task GetToken() {
-            if (token == "") {
-                var loginResponse = await httpClient.PostAsync($"{endpoint}/{appId}/login/anonymous", null);
-                token = JsonUtility.FromJson<LoginResponse>(await loginResponse.Content.ReadAsStringAsync()).token;
+            else
+            {
+                DebugLog("Duplicate...destroying self...");
+                Destroy(gameObject);
             }
         }
 
         // Public Methods
         //
 
-        public static Client GetInstance() {
+        public static Client GetInstance()
+        {
             return self;
         }
 
-        public async Task CreateNewGame() {
-            await Initialize();
-
-            var createRequest = new HttpRequestMessage(HttpMethod.Post, $"{endpoint}/{appId}/create");
-
-            createRequest.Content = new ByteArrayContent(new byte[] { });
-            createRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-            createRequest.Headers.Add("Authorization", token);
-
-            var createResponse = await httpClient.SendAsync(createRequest);
-
-            roomId = JsonUtility.FromJson<CreateResponse>(await createResponse.Content.ReadAsStringAsync()).stateId;
-
+        public async Task CreateNewGame()
+        {
+            this.roomId = await hathoraClient.Create(token, new byte[] { });
             DebugLog("Created Room ID: " + roomId);
         }
 
-        public async Task JoinGame(string roomId) {
-            await Initialize();
+        public void JoinGame(string roomId)
+        {
             this.roomId = roomId;
         }
 
-        public string GetRoomId() {
+        public string GetRoomId()
+        {
             return roomId;
         }
 
-        public async Task Connect(Action<string> contentRenderer) {
+        public async Task Connect(Action<string> contentRenderer)
+        {
             // Ensure that there is a room before attempting to connect to it
-            if (roomId == "") {
+            if (roomId == "")
+            {
                 DebugWarn("Attempted to connect without lobby. Creating...");
 
-                if (defaultRoomId != "") {
-                    await JoinGame(defaultRoomId);
-
-                } else {
+                if (defaultRoomId != "")
+                {
+                    JoinGame(defaultRoomId);
+                }
+                else
+                {
                     await CreateNewGame();
                 }
-            } else {
+            }
+            else
+            {
                 DebugLog("Already got roomId: " + roomId);
             }
 
-            await ws.ConnectAsync(new Uri($"{wsEndpoint}/connect/{appId}"), CancellationToken.None);
-            var bytesToSend = Encoding.UTF8.GetBytes($"{{\"token\": \"{token}\", \"stateId\": \"{roomId}\"}}");
-            await ws.SendAsync(bytesToSend, WebSocketMessageType.Binary, true, CancellationToken.None);
+            ws = await hathoraClient.Connect(token, roomId);
 
             string json = JWT.Decode(token);
             DebugLog("JSON: " + json);
@@ -170,7 +140,8 @@ namespace Hathora {
 
             DebugLog("USER ID: " + userId);
 
-            while (ws.State == WebSocketState.Open) {
+            while (ws.State == WebSocketState.Open)
+            {
                 ArraySegment<byte> bytesReceived = new ArraySegment<byte>(new byte[1024]);
                 WebSocketReceiveResult result = await ws.ReceiveAsync(bytesReceived, CancellationToken.None);
                 string content = Encoding.UTF8.GetString(bytesReceived.Array, 0, result.Count);
@@ -179,20 +150,24 @@ namespace Hathora {
             }
         }
 
-        public async Task Disconnect() {
+        public async Task Disconnect()
+        {
             await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
             ws = new ClientWebSocket();
             DebugLog("Disconnected");
         }
 
-        public async void Send(ClientMessage message) {
-            if (ws.State == WebSocketState.Open) {
+        public async void Send(ClientMessage message)
+        {
+            if (ws.State == WebSocketState.Open)
+            {
                 DebugLog("SEND: " + message.ToJson());
                 await ws.SendAsync(Encoding.UTF8.GetBytes(message.ToJson()), WebSocketMessageType.Binary, true, CancellationToken.None);
             }
         }
 
-        public string GetUserId() {
+        public string GetUserId()
+        {
             return userId;
         }
     }
