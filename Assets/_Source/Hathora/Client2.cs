@@ -1,6 +1,11 @@
+using System;
 using System.Net.Http;
-using System.Text.Json;
+using System.Net.Http.Headers;
 using System.Net.WebSockets;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Hathora
 {
@@ -32,9 +37,9 @@ namespace Hathora
 
         public async Task<string> loginAnonymous()
         {
-            HttpResponseMessage loginResponse = await httpClient.PostAsync($"{coordinatorHost}/{appId}/login/anonymous");
+            HttpResponseMessage loginResponse = await httpClient.PostAsync($"{coordinatorHost}/{appId}/login/anonymous", null);
             string loginBody = await loginResponse.Content.ReadAsStringAsync();
-            LoginResponse login = await JsonSerializer.DeserializeAsync<LoginResponse>(loginBody);
+            LoginResponse login = JsonConvert.DeserializeObject<LoginResponse>(loginBody);
             return login.token;
         }
 
@@ -51,7 +56,7 @@ namespace Hathora
             createRequest.Headers.Add("Authorization", token);
             HttpResponseMessage createResponse = await httpClient.SendAsync(createRequest);
             string createBody = await createResponse.Content.ReadAsStringAsync();
-            CreateResponse create = await JsonSerializer.DeserializeAsync<CreateResponse>(createBody);
+            CreateResponse create = JsonConvert.DeserializeObject<CreateResponse>(createBody);
             return create.stateId;
         }
 
@@ -59,8 +64,8 @@ namespace Hathora
         {
             ClientWebSocket webSocket = new ClientWebSocket();
             await webSocket.ConnectAsync(new Uri($"wss://{coordinatorHost}/connect/{appId}"), CancellationToken.None);
-            var bytesToSend = Encoding.UTF8.GetBytes($"{{\"token\": \"{token}\", \"stateId\": \"{roomId}\"}}");
-            await ws.SendAsync(bytesToSend, WebSocketMessageType.Binary, true, CancellationToken.None);
+            var bytesToSend = Encoding.UTF8.GetBytes($"{{\"token\": \"{token}\", \"stateId\": \"{stateId}\"}}");
+            await webSocket.SendAsync(bytesToSend, WebSocketMessageType.Binary, true, CancellationToken.None);
             return webSocket;
         }
     }
