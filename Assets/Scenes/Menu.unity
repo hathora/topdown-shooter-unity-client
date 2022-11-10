@@ -1826,6 +1826,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8383288594528947090, guid: 61f3de856450d455a824cdc4a13adc75, type: 3}
+      propertyPath: coordinatorHost
+      value: coordinator.hathora.dev
+      objectReference: {fileID: 0}
     - target: {fileID: 8383288594528947093, guid: 61f3de856450d455a824cdc4a13adc75, type: 3}
       propertyPath: m_RootOrder
       value: 3
