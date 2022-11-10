@@ -131,10 +131,7 @@ namespace Hathora
 
             ws = await hathoraClient.Connect(token, roomId);
 
-            string json = JWT.Decode(token);
-            DebugLog("JSON: " + json);
-            Token decoded = JsonUtility.FromJson<Token>(json);
-            userId = decoded.id;
+            userId = Hathora.Client.GetUserFromToken(token);
 
             DebugLog("USER ID: " + userId);
 
