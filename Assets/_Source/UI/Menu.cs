@@ -2,8 +2,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-
-
 public class Menu : MonoBehaviour {
 
     // Config
