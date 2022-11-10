@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+
+
 public class Menu : MonoBehaviour {
 
     // Config
@@ -21,10 +23,10 @@ public class Menu : MonoBehaviour {
     //
     // \Config
 
-    Hathora.Client hathoraClient;
+    Hathora.ClientManager hathoraClient;
 
     void Awake() {
-        hathoraClient = Hathora.Client.GetInstance();
+        hathoraClient = Hathora.ClientManager.GetInstance();
         roomIdField.text = defaultRoomId;
     }
 

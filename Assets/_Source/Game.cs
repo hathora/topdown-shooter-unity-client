@@ -67,7 +67,7 @@ public class Game : MonoBehaviour {
     //
     // \Config
 
-    Hathora.Client hathoraClient;
+    Hathora.ClientManager hathoraClient;
 
     string currentPlayerId;
     Dictionary<string, Player> playersMap;
@@ -82,7 +82,7 @@ public class Game : MonoBehaviour {
     bool hasQuit   = false;
 
     private async void Awake() {
-        hathoraClient = Hathora.Client.GetInstance();
+        hathoraClient = Hathora.ClientManager.GetInstance();
         playersMap = new Dictionary<string, Player>();
         currentPlayers = new HashSet<string>();
 

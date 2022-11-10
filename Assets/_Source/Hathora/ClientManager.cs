@@ -1,20 +1,18 @@
 using UnityEngine;
 
 using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Text;
-using System.Text.RegularExpressions;
+using Hathora;
 
 using DataTypes.Network;
 
 namespace Hathora
 {
 
-    public class Client : MonoBehaviour
+    public class ClientManager : MonoBehaviour
     {
 
         // Config
@@ -37,13 +35,13 @@ namespace Hathora
         //
         // \Config
 
-        private static Client self;
+        private static ClientManager self;
 
         private string roomId = "";
         private string token = "";
         private string userId = "";
 
-        private Hathora.Client2 hathoraClient;
+        private Hathora.Client hathoraClient;
 
         private ClientWebSocket ws;
 
@@ -66,7 +64,7 @@ namespace Hathora
         private async void Awake()
         {
             DebugLog("HATHORA - AWAKE");
-            hathoraClient = new Hathora.Client2(appId, coordinatorHost);
+            hathoraClient = new Hathora.Client(appId, coordinatorHost);
             await Initialize();
         }
 
@@ -77,7 +75,7 @@ namespace Hathora
                 self = this;
                 DontDestroyOnLoad(gameObject);
                 this.token = await hathoraClient.LoginAnonymous();
-                this.userId = Hathora.Client2.GetUserFromToken(token);
+                this.userId = Hathora.Client.GetUserFromToken(token);
             }
             else
             {
@@ -89,7 +87,7 @@ namespace Hathora
         // Public Methods
         //
 
-        public static Client GetInstance()
+        public static ClientManager GetInstance()
         {
             return self;
         }
