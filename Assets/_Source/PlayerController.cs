@@ -6,7 +6,7 @@ using DataTypes.Network.ClientMessages;
 public class PlayerController : MonoBehaviour {
 
     bool isEnabled = false;
-    Hathora.Client hathoraClient;
+    Hathora.ClientManager hathoraClient;
 
     Direction prevDirection = Direction.None;
     float prevAngle = 0.0f;
@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour {
     Camera mainCamera;
 
     private void Awake() {
-        hathoraClient = Hathora.Client.GetInstance();
+        hathoraClient = Hathora.ClientManager.GetInstance();
         mainCamera    = Camera.main;
     }
 
