@@ -5,9 +5,6 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Text;
-using Hathora;
-
-using DataTypes.Network;
 
 namespace Hathora
 {
@@ -42,8 +39,7 @@ namespace Hathora
         private string userId = "";
 
         private Hathora.Client hathoraClient;
-
-        private ClientWebSocket ws;
+        private Hathora.Transport transport;
 
         private void DebugLog(string message)
         {
@@ -129,35 +125,31 @@ namespace Hathora
                 DebugLog("Already got roomId: " + roomId);
             }
 
-            ws = await hathoraClient.Connect(token, roomId);
+            transport = await hathoraClient.Connect(token, roomId, Client.TransportType.WebSocket);
 
             userId = Hathora.Client.GetUserFromToken(token);
 
             DebugLog("USER ID: " + userId);
 
-            while (ws.State == WebSocketState.Open)
+            while (transport.IsReady())
             {
-                ArraySegment<byte> bytesReceived = new ArraySegment<byte>(new byte[1024]);
-                WebSocketReceiveResult result = await ws.ReceiveAsync(bytesReceived, CancellationToken.None);
-                string content = Encoding.UTF8.GetString(bytesReceived.Array, 0, result.Count);
-
+                string content = Encoding.UTF8.GetString(await transport.ReadMessage());
                 contentRenderer(content);
             }
         }
 
         public async Task Disconnect()
         {
-            await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
-            ws = new ClientWebSocket();
+            await transport.Disconnect(1000);
             DebugLog("Disconnected");
         }
 
         public async void Send(ClientMessage message)
         {
-            if (ws.State == WebSocketState.Open)
+            if (transport.IsReady())
             {
                 DebugLog("SEND: " + message.ToJson());
-                await ws.SendAsync(Encoding.UTF8.GetBytes(message.ToJson()), WebSocketMessageType.Binary, true, CancellationToken.None);
+                await transport.WriteMessage(Encoding.UTF8.GetBytes(message.ToJson()));
             }
         }
 
