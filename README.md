@@ -2,7 +2,7 @@
 
 ## Overview
 
-Multiplayer 2D shooter demo made using Hathora + Unity
+Multiplayer 2D shooter demo made using [Hathora](https://hathora.dev/) + Unity
 
 Assets from [Kenney](https://kenney.nl/assets/topdown-shooter)
 
