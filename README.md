@@ -34,7 +34,7 @@ The core loop of talking to the Hathora Client looks like this:
 
 public class Game : MonoBehaviour {
 
-    Hathora.Client hathoraClient;
+    Hathora.ClientManager hathoraClient;
 
     bool hasLoaded = false;
     bool hasQuit   = false;
